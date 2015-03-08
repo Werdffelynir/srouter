@@ -249,10 +249,19 @@ class SRouter
     }
 
 
-    public function getParams() {
-        $params  = $this->routerResult['params'];
-        $paramsGet = $this->routerResult['paramsGet'];
-        return array_merge($paramsGet,$params);
+    public function getParams($name=null) {
+        $_params  = $this->routerResult['params'];
+        $_paramsGet = $this->routerResult['paramsGet'];
+        $params = array_merge($_paramsGet,$_params);
+
+        if($name !== null){
+            if(isset($params[$name]))
+                return $params[$name];
+            else
+                return null;
+        }else{
+            return $params;
+        }
     }
 
 
