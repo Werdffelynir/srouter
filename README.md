@@ -5,15 +5,13 @@ This simple URL Router
 
 
 ## Router catches URI methods
-```
-+ `GET` - $R->get('/get', callable);
-+ `POST` - $R->post('/post', callable);
-+ `PUT` - $R->put('/put', callable);
-+ `DELETE` - $R->delete('/delete', callable);
-+ `OPTION` - $R->options('/options', callable);
-+ `XHR` - $R->xhr('/ajax', callable);
-```
-all transmitted data accessible to the method getParams(['param_name'])
++ `GET` - `$R->get('/get', callable);`
++ `POST` - `$R->post('/post', callable);`
++ `PUT` - `$R->put('/put', callable);`
++ `DELETE` - `$R->delete('/delete', callable);`
++ `OPTION` - `$R->options('/options', callable);`
++ `XHR` - `$R->xhr('/ajax', callable);`
+all transmitted data accessible to the method `getParams(['param_name'])`
 
 
 ## Match rules
