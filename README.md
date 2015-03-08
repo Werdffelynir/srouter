@@ -4,6 +4,18 @@
 This simple URL Router
 
 
+## Match rules
+- :n! require numeric. regexp: '\d+'
+- :s! require words. regexp: '[a-zA-Z]+'
+- :a! require words. regexp: '\w+'
+- :p! require params. regexp: '[\w\?\&\=\-\%\.\+]+'
+- :*! require some. regexp: '[\w\?\&\=\-\%\.\+\/]+'
+- :n?
+- :s?
+- :a?
+- :p?
+- :*?
+
 ## Configuration
 ```
 include('src/SRouter.php');
@@ -17,17 +29,17 @@ $R->forceCallable(true);
 
 
 $R->get('/', function(){
-    echo "<h1>Main page</h1>";
+    echo "Main page";
 });
 
 
 $R->get('/contact', function(){
-    echo "<h1>Contact page</h1>";
+    echo "Contact page";
 });
 
 
 $R->get('/hello/<user>:a!', function($user){
-    echo "<h1>Hello $user</h1>";
+    echo "Hello $user";
 });
 
 
