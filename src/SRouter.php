@@ -49,7 +49,7 @@ class SRouter
      */
     public function __construct(array $params=[])
     {
-        $this->requestMethod = (empty($params['request_method'])) ?  strtoupper($_SERVER['REQUEST_METHOD']) : $params['request_uri'];
+        $this->requestMethod = (empty($params['request_method'])) ?  strtoupper($_SERVER['REQUEST_METHOD']) : $params['request_method'];
         $this->basePath = (empty($params['base_path'])) ? '' : $params['base_path'];
         $this->baseUri = (empty($params['base_uri'])) ?  $_SERVER['HTTP_HOST'] : $params['base_uri'];
         $this->baseScriptName = (empty($params['base_script_name'])) ? pathinfo($_SERVER['SCRIPT_FILENAME'])['basename'] : $params['base_script_name'];

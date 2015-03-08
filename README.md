@@ -16,12 +16,14 @@ This simple URL Router
 
 
 ## Match rules
-- :n! require numeric. regexp: '\d+'
-- :s! require words. regexp: '[a-zA-Z]+'
-- :a! require words. regexp: '\w+'
-- :p! require params. regexp: '[\w\?\&\=\-\%\.\+]+'
-- :*! require some. regexp: '[\w\?\&\=\-\%\.\+\/]+'
-- :n?
+- ! require
+- ? not require
+- :n! numeric. regexp: '\d+'
+- :s! words. regexp: '[a-zA-Z]+'
+- :a! words. regexp: '\w+'
+- :p! params. regexp: '[\w\?\&\=\-\%\.\+]+'
+- :*! some. regexp: '[\w\?\&\=\-\%\.\+\/]+'
+- :n? 
 - :s?
 - :a?
 - :p?

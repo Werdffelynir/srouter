@@ -1,48 +1,64 @@
 <?php
 
-# .
 require_once('../src/SRouter.php');
 
 
-# .
-$R = new SRouter();
 
-# .
+// if you use multi languages
+$RequestURI = trim($_SERVER['REQUEST_URI'],'/');
+$lang = 'en';
+if(strpos($RequestURI,'/')==2){
+    $lang = substr($RequestURI,0,2);
+    $RequestURI = substr($RequestURI,3);
+}
+$config = [
+    'request_uri'=>$RequestURI
+];
+
+
+
+$R = new SRouter($config);
 $R->forceCallable(true);
 
 
-# .
+
 echo '  <a href="/">home</a>
+        <br>
         <a href="/contact">contact</a>
-        <a href="/hello/user">hello user</a>
-        <a href="/doc/html">doc html</a>
-        <a href="/doc/php/array_multisort">doc php 798</a>
-        <a href="/item/4597548">item 4597548</a>
+        <br>
+        <a href="/hello/user">hello / user</a>
+        <br>
+        <a href="/doc/html">doc / html</a>
+        <br>
+        <a href="/doc/php/array_multisort">doc / php / array_multisort</a>
+        <br>
+        <a href="/item/4597548">item / 4597548</a>
+        <br>
+        <br>
 ';
 
 
-# .
+
 $R->get('/', function(){
-    echo "<h1>Home page</h1>";
+    echo "Home page";
 });
 
 $R->get('/contact', function(){
-    echo "<h1>Contact page</h1>";
+    echo "Contact page";
 });
 
 $R->get('/hello/<user>:a!', function($user){
-    echo "<h1>Hello $user</h1>";
+    echo "Hello $user";
 });
 
 $R->get('/doc/<category>:a!/<subcategory>:p?', function($category, $subcategory){
-    echo "<h1>Document category: $category, subcategory: $subcategory.</h1>";
+    echo "Document category: $category, subcategory: $subcategory.";
 });
 
 $R->get('/item/:n!', function($id){
-    echo "<h1>Item ID: $id.</h1>";
+    echo "Item ID: $id.";
 });
 
 
-# .
 if($errors = $R->getRouterErrors())
     print_r($errors);
