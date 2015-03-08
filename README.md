@@ -11,7 +11,8 @@ This simple URL Router
 + `DELETE` - `$R->delete('/delete', callable);`
 + `OPTION` - `$R->options('/options', callable);`
 + `XHR` - `$R->xhr('/ajax', callable);`
-all transmitted data accessible to the method `getParams(['param_name'])`
+
+- all transmitted data accessible to the method `getParams(['param_name'])`
 
 
 ## Match rules
