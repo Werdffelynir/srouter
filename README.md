@@ -117,9 +117,10 @@ $router->map('GET|POST', '/page', callable);
 
 
 
+
+
 ## Examples url rules
 ```
-
 // site root 
 // http://site.loc
 $router->get('/', function(){
