@@ -6,37 +6,115 @@ SRouter - поддержывает любые виды запросов GET, POS
 
 
 ## Router catches HTTP methods:
-+ `GET` - `$R->get('/get', callable);`
-+ `POST` - `$R->post('/post', callable);`
-+ `PUT` - `$R->put('/put', callable);`
-+ `DELETE` - `$R->delete('/delete', callable);`
-+ `OPTION` - `$R->options('/options', callable);`
-+ `XHR` - `$R->xhr('/ajax', callable);`
 
-- все передаваемые данные, доступные посредством этого метода `getParams(['param_name'])`
+### `GET`
+```
+$R->get('/page', callable);
+```
+
+### `POST`
+```
+$R->post('/page', callable);
+```
+
+### `PUT`
+```
+$R->put('/page', callable);
+```
+
+### `DELETE`
+```
+$R->delete('/page', callable);
+```
+
+### `OPTION`
+```
+$R->options('/page', callable);
+```
+
+### `XHR`
+```
+$R->xhr('/page', callable);
+```
+
+### `mixed `
+```
+$R->map('GET|POST', '/page', callable);
+```
 
 
 ## Match rules
-- ! require
-- ? not require
-- :n! numeric. regexp: '\d+'
-- :s! words. regexp: '[a-zA-Z]+'
-- :a! words. regexp: '\w+'
-- :p! params. regexp: '[\w\?\&\=\-\%\.\+]+'
-- :*! some. regexp: '[\w\?\&\=\-\%\.\+\/]+'
-
 - `!` required
 - `?` not required
-- `:n?` - numeric - `\d{0,}`,
-- `:s?` - words - `[a-zA-Z]{0,}`,
-- `:a?` - words - `\w{0,}`,
-- `:p?` - params - `[\w\?\&\=\-\%\.\+\{\}]{0,}`,
-- `:*?` - some symbols - `[\w\?\&\=\-\%\.\+\{\}\/]{0,}`,
-- `:n!` - required numeric - `\d+`,
-- `:s!` - required words - `[a-zA-Z]+`,
-- `:a!` - required words - `\w+`,
-- `:p!` - required params - `[\w\?\&\=\-\%\.\+]+`,
-- `:*!` - required some symbols - `[\w\?\&\=\-\%\.\+\/]+`,
+- `:n?` numeric - `\d{0,}`,
+- `:s?` words - `[a-zA-Z]{0,}`,
+- `:a?` words - `\w{0,}`,
+- `:p?` params - `[\w\?\&\=\-\%\.\+\{\}]{0,}`,
+- `:*?` some symbols - `[\w\?\&\=\-\%\.\+\{\}\/]{0,}`,
+- `:n!` required numeric - `\d+`,
+- `:s!` required words - `[a-zA-Z]+`,
+- `:a!` required words - `\w+`,
+- `:p!` required params - `[\w\?\&\=\-\%\.\+]+`,
+- `:*!` required some symbols - `[\w\?\&\=\-\%\.\+\/]+`,
+
+
+
+## Class public methods
+
+### `SRouter::__construct( [options] )` 
+
+
+### `post($condition, $callback[, array $callbackParams])`
+
+
+### `get($condition, $callback[, array $callbackParams])`
+
+
+### `put($condition, $callback[, array $callbackParams])`
+
+
+### `delete($condition, $callback[, array $callbackParams])`
+
+
+### `options($condition, $callback[, array $callbackParams])`
+
+
+### `xhr($condition, $callback[, array $callbackParams])`
+
+
+### `map($method, $condition, $callback[, array $callbackParams])`
+
+
+### `getRouterResult()`
+
+
+### `getParams(['param_name'])`
+все передаваемые данные, доступные посредством этого метода
+
+### `getRouterErrors()`
+
+
+### `getDomain()`
+
+
+### `getUrl([$link])`
+
+
+### `getFullUrl([$link])`
+
+
+### `link([$link])`
+
+
+### `isXMLHTTPRequest()`
+
+
+### `forceRun()`
+
+
+### `run()`
+
+
 
 
 ## Examples url rules
