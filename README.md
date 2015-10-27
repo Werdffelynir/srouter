@@ -5,44 +5,6 @@ SRouter - это базис для REST API.
 SRouter - поддержывает любые виды запросов GET, POST и созданые.
 
 
-## Router catches HTTP methods:
-
-### `GET`
-```
-$router->get('/page', callable);
-```
-
-### `POST`
-```
-$router->post('/page', callable);
-```
-
-### `PUT`
-```
-$router->put('/page', callable);
-```
-
-### `DELETE`
-```
-$router->delete('/page', callable);
-```
-
-### `OPTION`
-```
-$router->options('/page', callable);
-```
-
-### `XHR`
-```
-$router->xhr('/page', callable);
-```
-
-### `mixed `
-```
-$router->map('GET|POST', '/page', callable);
-```
-
-
 ## Match rules
 - `!` required
 - `?` not required
@@ -58,68 +20,117 @@ $router->map('GET|POST', '/page', callable);
 - `:*!` required some symbols - `[\w\?\&\=\-\%\.\+\/]+`,
 
 
-
 ## Class public methods
 
+
 ### `SRouter::__construct( [options] )` 
+Принимает параметры настройки роутера:
+```php
+[
+    'domain'=>'site.com',
+    'base_path'=>'/path/to/root/', 
+    'request_uri'=>'',
+    'request_method'=>'',
+    'base_script_name'=>''
+]
+```
 
 
-### `post($condition, $callback[, array $callbackParams])`
+- 'domain' Настройки доменого имени если оно отличается от реального. Например: 'mysite.com'
+- 'base_path' Базовый путь к роутеру, если индекс находится не в корене, нужно указать путь. например если сайт лежит в под-директории (www/mysite.com/some/index.php): /some/
 
 
-### `get($condition, $callback[, array $callbackParams])`
+#### `post($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с методом __POST__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `put($condition, $callback[, array $callbackParams])`
+#### `get($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с методом __GET__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `delete($condition, $callback[, array $callbackParams])`
+#### `put($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с пользовательским методом __PUT__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `options($condition, $callback[, array $callbackParams])`
+#### `delete($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с пользовательским методом __DELETE__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `xhr($condition, $callback[, array $callbackParams])`
+#### `options($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с пользовательским методом __OPTIONS__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `map($method, $condition, $callback[, array $callbackParams])`
+#### `xhr($condition, $callback[, array $callbackParams])`
+Отлавлевает HTTP запрос с пользовательским методом __XHR__. если `$condition` соответствуют, выполняет `$callback`
 
 
-### `getRouterResult()`
+#### `map($method, $condition, $callback[, array $callbackParams])`
+Создает пользователь наблюдатель за запросом, или смешаный наблюдатель
+```php
+$router->map('GET|POST', '/page', function(){
+    // ... code
+});
+```
+
+#### `getPort()`
+Return current request port
 
 
-### `getParams(['param_name'])`
+#### `getProtocol()`
+Return current request protocol, http or https
+
+
+#### `getRouterResult()`
+Returns an array, or null if no one rule does not fit
+
+
+#### `getParams(['param_name'])`
 все передаваемые данные, доступные посредством этого метода
 
-### `getRouterErrors()`
+
+#### `getRouterErrors()`
+Return router errors for current request
 
 
-### `getDomain()`
+#### `getDomain()`
+Return current domain name
 
 
-### `getUrl([$link])`
+#### `getUrl([$link])`
+Return and or create base relative url
+And append $link
 
 
-### `getFullUrl([$link])`
+#### `getFullUrl([$link])`
+Return and or create base absolute url
+And append $link
 
 
-### `link([$link])`
+#### `encodeLink([$link])`
+Кодирукт строку как часть URL
 
 
-### `isXMLHTTPRequest()`
+#### `decodeLink([$link])`
+Декодирукт строку с URL формата
 
 
-### `forceRun()`
+#### `isXMLHTTPRequest()`
+Проверка является ли запрос асинхронным. проверяет наличие заголовка 'HTTP_X_REQUESTED_WITH'
 
 
-### `run()`
+#### `forceRun()`
+Executed immediately when finding matching, and skip the other rules
 
 
+#### `run()`
+Start implementation of the rules of the first found, after checking all the rules
 
 
+#### `notFount($callback[,array $callbackParam])`
+Executed $callback with $callbackParams, when no one rule does not fit
 
 
-## Examples url rules
+## Examples SRouter url rules
 ```php
 // site root 
 // http://site.loc
@@ -172,9 +183,8 @@ if($errors = $router->getRouterErrors())
     
 ```
 
-
-## Configuration
-```
+## Examples SRouter Configuration
+```php
 include('src/SRouter.php');
 
 // additional options, I recommend using it if you see errors
@@ -198,5 +208,4 @@ $router->forceRun(true);
 // show error if there are
 if($errors = $router->getRouterErrors())
     print_r($errors);
-
 ```
