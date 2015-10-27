@@ -1,10 +1,11 @@
-# Simple router
+# Simple Router
+
+SRouter - это простой класс для роутинга HTTP запросов, написан на PHP 5.4.
+SRouter - это базис для REST API.
+SRouter - поддержывает любые виды запросов GET, POST и созданые.
 
 
-This simple URL Router
-
-
-## Router catches URI methods
+## Router catches HTTP methods:
 + `GET` - `$R->get('/get', callable);`
 + `POST` - `$R->post('/post', callable);`
 + `PUT` - `$R->put('/put', callable);`
@@ -12,7 +13,7 @@ This simple URL Router
 + `OPTION` - `$R->options('/options', callable);`
 + `XHR` - `$R->xhr('/ajax', callable);`
 
-- all transmitted data accessible to the method `getParams(['param_name'])`
+- все передаваемые данные, доступные посредством этого метода `getParams(['param_name'])`
 
 
 ## Match rules
@@ -23,11 +24,19 @@ This simple URL Router
 - :a! words. regexp: '\w+'
 - :p! params. regexp: '[\w\?\&\=\-\%\.\+]+'
 - :*! some. regexp: '[\w\?\&\=\-\%\.\+\/]+'
-- :n? 
-- :s?
-- :a?
-- :p?
-- :*?
+
+- `!` required
+- `?` not required
+- `:n?` - numeric - `\d{0,}`,
+- `:s?` - words - `[a-zA-Z]{0,}`,
+- `:a?` - words - `\w{0,}`,
+- `:p?` - params - `[\w\?\&\=\-\%\.\+\{\}]{0,}`,
+- `:*?` - some symbols - `[\w\?\&\=\-\%\.\+\{\}\/]{0,}`,
+- `:n!` - required numeric - `\d+`,
+- `:s!` - required words - `[a-zA-Z]+`,
+- `:a!` - required words - `\w+`,
+- `:p!` - required params - `[\w\?\&\=\-\%\.\+]+`,
+- `:*!` - required some symbols - `[\w\?\&\=\-\%\.\+\/]+`,
 
 
 ## Examples url rules
@@ -48,8 +57,6 @@ $R->get('/doc/<link>:p?', callable);
 // http://site.loc/category/product
 // http://site.loc/category/product/some
 $R->get('/category/<cat>:w?/<subcat>:p?', callable);
-
-
 ```
 
 
@@ -57,13 +64,13 @@ $R->get('/category/<cat>:w?/<subcat>:p?', callable);
 ```
 include('src/SRouter.php');
 
+// additional options, I recommend using it if you see errors
 
-// additional options, I recommend using it you see errors
 $params = [
+    'domain'=>'string',
+    'base_path'=>'string',
     'request_uri'=>'string',
     'request_method'=>'string',
-    'base_uri'=>'string',
-    'base_path'=>'string',
     'base_script_name'=>'string'
 ];
 
@@ -72,12 +79,11 @@ $R = new SRouter([$params]);
 
 
 // its will start the execution of the immediately after a match router
-$R->forceCallable(true);
+$R->forceRun(true);
 
 
 // show error if there are
 if($errors = $R->getRouterErrors())
     print_r($errors);
-
 
 ```
