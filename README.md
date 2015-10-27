@@ -9,37 +9,37 @@ SRouter - поддержывает любые виды запросов GET, POS
 
 ### `GET`
 ```
-$R->get('/page', callable);
+$router->get('/page', callable);
 ```
 
 ### `POST`
 ```
-$R->post('/page', callable);
+$router->post('/page', callable);
 ```
 
 ### `PUT`
 ```
-$R->put('/page', callable);
+$router->put('/page', callable);
 ```
 
 ### `DELETE`
 ```
-$R->delete('/page', callable);
+$router->delete('/page', callable);
 ```
 
 ### `OPTION`
 ```
-$R->options('/page', callable);
+$router->options('/page', callable);
 ```
 
 ### `XHR`
 ```
-$R->xhr('/page', callable);
+$router->xhr('/page', callable);
 ```
 
 ### `mixed `
 ```
-$R->map('GET|POST', '/page', callable);
+$router->map('GET|POST', '/page', callable);
 ```
 
 
@@ -119,22 +119,56 @@ $R->map('GET|POST', '/page', callable);
 
 ## Examples url rules
 ```
-// http://site.loc
-$R->get('/', callable);
 
-// http://site.loc/home
-$R->get('/home', callable);
+// site root 
+// http://site.loc
+$router->get('/', function(){
+    echo "Home page";
+});
+
+
+// http://site.loc/contact
+$router->get('/contact', function(){
+    echo "Contact page";
+});
+
+
+// http://site.loc/hello/Vasia
+$router->get('/hello/<user>:a!', function($user){
+    echo "Hello $user";
+});
+
 
 // http://site.loc/user/12345
-$R->get('/user/<id>:n!', callable);
+$router->get('/user/<id>:n!', function($id){
+    echo "User ID $id";
+});
+
 
 // http://site.loc/doc
 // http://site.loc/doc/some
-$R->get('/doc/<link>:p?', callable);
+$router->get('/doc/<link>:p?', function($link){
+    echo "Doc link $link";
+});
+
 
 // http://site.loc/category/product
 // http://site.loc/category/product/some
-$R->get('/category/<cat>:w?/<subcat>:p?', callable);
+$router->get('/category/<category>:w?/<subcategory>:p?', function($category, $subcategory){
+    echo "Category: $category, subcategory: $subcategory.";
+});
+
+
+// http://site.loc/doc/category/product
+// http://site.loc/doc/category/product/some
+$router->get('/doc/<category>:a!/<subcategory>:p?', function($category, $subcategory){
+    echo "Document category: $category, subcategory: $subcategory.";
+});
+
+
+if($errors = $router->getRouterErrors())
+    print_r($errors);
+    
 ```
 
 
@@ -153,15 +187,15 @@ $params = [
 ];
 
 
-$R = new SRouter([$params]);
+$router = new SRouter([$params]);
 
 
 // its will start the execution of the immediately after a match router
-$R->forceRun(true);
+$router->forceRun(true);
 
 
 // show error if there are
-if($errors = $R->getRouterErrors())
+if($errors = $router->getRouterErrors())
     print_r($errors);
 
 ```
