@@ -55,17 +55,24 @@ class SRouter
      */
     public function __construct(array $params=[])
     {
+        $defConfig = [
+
+        ];
+
         $this->domain = (empty($params['domain'])) ?  $_SERVER['HTTP_HOST'] : $params['domain'];
         $this->basePath = (empty($params['base_path'])) ? '/' : '/'.trim($params['base_path'],'/').'/';
         $this->requestMethod = (empty($params['request_method'])) ?  strtoupper($_SERVER['REQUEST_METHOD']) : $params['request_method'];
         $this->baseScriptName = (empty($params['base_script_name'])) ? pathinfo($_SERVER['SCRIPT_FILENAME'])['basename'] : $params['base_script_name'];
+
         // assign property Request Uri
         $requestUri = (empty($params['request_uri'])) ?  $_SERVER['REQUEST_URI'] : $params['request_uri'];
-        $replaces = [$this->basePath,$this->baseScriptName];
+        $replaces = [trim($this->basePath,'/'), $this->baseScriptName];
+
         $this->requestUri = trim(str_ireplace($replaces,'',urldecode($requestUri)),'/');
         $this->port = $_SERVER['SERVER_PORT'];
         $this->protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? 'https':'http';
         $this->determineRequestParams();
+
     }
 
     /**
@@ -165,8 +172,10 @@ class SRouter
         // stop processing if you already have the result
         if(!empty($this->routerResult))
             goto mapEnd;
+
         // if request method is an indication
         if($this->requestMethod==$method || ($method == 'XHR' && $this->isXMLHTTPRequest()) ) {
+
             $callableParams = $this->conditionMatch($condition);
             if($callableParams) {
                 $callbackParams = array_merge($addedCallbackParams,$callableParams['numberParams']);
@@ -212,7 +221,7 @@ class SRouter
             $position = strpos($part, ":");
             if(strpos($part, "<") !== false || $position !== false){
                 $part = (substr($part, $position+2, 1) == '?') ? "?($part)" : "($part)";
-                //var_dump($position);
+
             }
             $toMap .= '/'.$part;
         }
@@ -249,20 +258,22 @@ class SRouter
             $case = '/';
         else
             $case = $this->requestUri;
+
         $params = null;
         if($this->requestMethod=='GET'){
             if(!empty($_GET)){
                 $get = explode('?',$case);
-                if(count($get)>1) {
+                if(count($get) > 1) {
                     $case = $get[0];
-                    parse_str($get[1],$params);
+                    parse_str($get[1], $params);
                 } else
-                    $case = (string)$get;
+                    $case = is_array($get) ? join('/',$get) : $get ;
             }else{
                 $params = null;
             }
         }else
             parse_str(file_get_contents('php://input'), $params);
+
         $this->currentRequest = '/'.trim($case,'/');
         $this->currentGetParams = $params;
     }
